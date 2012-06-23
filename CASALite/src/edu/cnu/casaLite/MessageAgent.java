@@ -1,17 +1,23 @@
 package edu.cnu.casaLite;
 
+import java.util.Vector;
+
 import edu.cnu.casaLite.event.MessageEvent;
 import edu.cnu.casaLite.io.IMessageStream;
-import edu.cnu.casaLite.io.URLDescriptor;
+import edu.cnu.casaLite.io.IURLDescriptor;
 import edu.cnu.casaLite.message.IMessage;
+import edu.cnu.casaLite.message.IMessageHandler;
 
-public abstract class MessageAgent extends EventAgent {
-	private IMessageStream stream;
-	private boolean        init;
+public abstract class MessageAgent extends EventAgent implements IMessageHandler {
+	private   IMessageStream stream;
+	private   boolean        init;
+	protected Vector         processors = new Vector();
 	
-	public MessageAgent() {
-		this( null );
-	}
+	protected interface IMessageProcessor { }
+
+	public    final void    addProcessor(IMessageProcessor aProcessor) { processors.   addElement( aProcessor ); }
+	protected final void removeProcessor(IMessageProcessor aProcessor) { processors.removeElement( aProcessor ); }
+	
 	protected MessageAgent(IMessageStream aStream) {
 		init = false;
 		setStream( aStream );
@@ -31,8 +37,6 @@ public abstract class MessageAgent extends EventAgent {
 		if (message != null) {
 			handleMessage( message );
 		}
-//		if (message != null) handleIncomingMessage( message );
-//		else                 super.onLoop();
 	}
 	protected void onExit() {
 		super.onExit();
@@ -42,13 +46,11 @@ public abstract class MessageAgent extends EventAgent {
 	public void setStream(IMessageStream aStream) {
 		stream = aStream;
 	}
-
-	protected abstract void handleMessage(IMessage message);
-
-	public URLDescriptor getURL() {
+	
+	public IURLDescriptor getURL() {
 		return stream.getURL();
 	}
-	
+
 	// used by all who wish to send a message through this agent
 	public void queueMessage(IMessage aMessage) {
 		MessageEvent event = new MessageEvent( aMessage, stream );

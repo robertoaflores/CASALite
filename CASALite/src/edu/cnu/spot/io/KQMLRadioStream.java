@@ -40,6 +40,8 @@ public class KQMLRadioStream extends AbstractMessageStream {
 		final int aConnectingPort = 52;
 		closed       = false;
 		broadcasting = true;
+		// This thread waits for incoming invites. If one is received, it'll open a stream to send future messages, and
+		// will create another thread to receive incoming messages, after which this MessageStream is now initialized.
 		new Thread( new Runnable() {
 			public void run() {
 				try {
@@ -52,7 +54,7 @@ public class KQMLRadioStream extends AbstractMessageStream {
 					String string  = dataIn.readUTF();
 //					System.out.println("[receiver] received: " + string );
 
-					MapMessage message      = (MapMessage) KQMLMessage.fromString( string );
+					MapMessage message      = KQMLMessage.fromString( string );
 					String     performative = message.get( "performative" );
 					String     content      = message.get( "content" );
 					
@@ -69,10 +71,10 @@ public class KQMLRadioStream extends AbstractMessageStream {
 //					System.out.println("[receiver] closing..." );
 					listen.close();
 					
-					String address =  dataIn.getAddress();
+					String address = dataIn.getAddress();
 		            long   from    = IEEEAddress.toLong( address );
-		            
-		            port = Integer.parseInt( content );
+
+		            port   = Integer.parseInt( content );
 
 //					System.out.println("[stream] opening "+ address + ":" + port +"..." );
 					stream = (StreamConnection) Connector.open( "radiostream://" + from + ":" + port );
@@ -85,7 +87,7 @@ public class KQMLRadioStream extends AbstractMessageStream {
 								while (true) {
 //									System.out.println("[stream] listening..." );
 									String string = input.readUTF();
-//									System.out.println("[stream] received: " + string );
+									System.out.println("[stream] >>> " + string );
 									queueMessage( string );
 								}
 							}
@@ -132,18 +134,6 @@ public class KQMLRadioStream extends AbstractMessageStream {
 		return init;
 	}
 
-	public String getScheme() {
-		return "radiostream";
-	}
-	public String getHost() {
-		long   address = RadioFactory.getRadioPolicyManager().getIEEEAddress();
-		String host    = IEEEAddress.toDottedHex( address );
-		return host;
-	}
-	public int getPort() {
-		return port;
-	}
-
 	public void close() {
 		try {
 			closed = true;
@@ -162,12 +152,26 @@ public class KQMLRadioStream extends AbstractMessageStream {
 	public void sendMessage(IMessage aMessage) {
 		try {
 			String message = aMessage.toString();
-//			System.out.println( "[stream] sending: "+ message );
+			
+			System.out.println( "[stream] <<< "+ message );
+			
 			output.writeUTF( message );
 			output.flush();
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected String getScheme() {
+		return "radiostream";
+	}
+	protected String getHost() {
+		long   address = RadioFactory.getRadioPolicyManager().getIEEEAddress();
+		String host    = IEEEAddress.toDottedHex( address );
+		return host;
+	}
+	protected int getPort() {
+		return port;
 	}
 }

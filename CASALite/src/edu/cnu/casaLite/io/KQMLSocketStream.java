@@ -20,6 +20,7 @@ public class KQMLSocketStream extends AbstractMessageStream {
 		super( KQMLParser.getInstance() );
 		init   = false;
 		port   = aPort;
+		closed = true;
 	}
 	public void open() {
 		closed = false;
@@ -47,15 +48,6 @@ public class KQMLSocketStream extends AbstractMessageStream {
 	// it must always be overwritten in subclasses
 	public boolean isInitialized() {
 		return init;
-	}
-	public String getScheme() {
-		return "socket";
-	}
-	public int getPort() {
-		return server.getLocalPort();
-	}
-	public String getHost() {
-		return server.getInetAddress().getHostAddress();
 	}
 
 	public void close() {
@@ -86,5 +78,15 @@ public class KQMLSocketStream extends AbstractMessageStream {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected String getScheme() {
+		return "socket";
+	}
+	protected int getPort() {
+		return server.getLocalPort();
+	}
+	protected String getHost() {
+		return server.getInetAddress().getHostAddress();
 	}
 }

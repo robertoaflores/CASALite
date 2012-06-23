@@ -2,47 +2,77 @@ package edu.cnu.spot;
 
 import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.io.IMessageStream;
+import edu.cnu.casaLite.message.IMessage;
 import edu.cnu.casaLite.message.KQMLMessage;
 import edu.cnu.casaLite.message.MapMessage;
-import edu.cnu.casaLite.message.IMessage;
 import edu.cnu.spot.event.Bye;
 
 public class SPOTAgent extends MessageAgent {
 
+	protected interface ISPOTProcessor extends IMessageProcessor {
+		boolean handleMessage(MapMessage message, String performative, MapMessage content, String command);
+	}
+	
 	public SPOTAgent() {
 		this( null );
 	}
 	public SPOTAgent(IMessageStream aStream) {
 		super( aStream );
-	}
-	protected void handleMessage(IMessage aMessage) {
-		MapMessage message  = (KQMLMessage) aMessage;
-//		System.out.println( "[spot] received: " + incoming );
-		String  performative = message.get( "performative" );
-		String  language     = message.get( "language" );
-		boolean handled      = false;
 
-		if (language.equals( "spot" )) {
-			String     string  = message.getQuoted( "content", false );
-			MapMessage content = (MapMessage) KQMLMessage.fromString( string );
-			String     command = content.get( "performative" );
-			
-			if (performative.equals( "request" )) {
-				if (command.equals( "bye" )) {
-					handled = true;
-					queueEvent( new Bye( this, message ));
+		addProcessor( new ISPOTProcessor() {
+			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
+				if (performative.equals( "request" )) {
+					if (command.equals( "bye" )) {
+						queueEvent( new Bye( SPOTAgent.this, message ));
+						return true;
+					}
 				}
+				return false;
 			}
-			if (performative.equals( "done" )) {
-				if (command.equals( "bye" )) {
-					handled = true;
-					queueStop();
+		});
+		addProcessor( new ISPOTProcessor() {
+			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
+				if (performative.equals( "done" )) {
+					if (command.equals( "bye" )) {
+						queueStop();
+						return true;
+					}
 				}
+				return false;
 			}
-		}
-		if (!handled) {
+		});
+		addProcessor( new ISPOTProcessor() {
+			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
+				if (performative.equals( "not-understood" )) {
+					System.out.println( "not-understood received: " + message.toString() );
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	public final boolean handleMessage(IMessage aMessage) {
+		MapMessage message      = (MapMessage) aMessage;
+		String     performative = message.get( "performative" );
+		MapMessage content      = KQMLMessage.fromString( message.getQuoted( "content", false ));
+		String     command      = content.get( "performative" );
+
+		if (!handleMessage(message, performative, content, command)) {
 			message.set( "performative", "not-understood" );
 			queueMessage( message );
 		}
+		return true;
+	}
+	
+	protected boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
+		for (int i = 0; i < processors.size(); i++) {
+			ISPOTProcessor processor = (ISPOTProcessor) processors.elementAt( i );
+			if (processor.handleMessage(message, performative, content, command)) {
+				System.out.println( "[handler] " + processor.toString() );
+				return true;
+			}
+		}
+		return false;
 	}
 }

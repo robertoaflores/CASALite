@@ -2,16 +2,16 @@ package edu.cnu.spot.robot.event;
 
 import org.sunspotworld.create.IRobotCreate;
 
-import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.message.MapMessage;
+import edu.cnu.spot.SPOTAgent;
 
 public class Curve extends Drive {
 	// a | negative | radius: turns robot | right
 	//   | positive |                     | left
 	private final int radius;
 	
-	public Curve(MessageAgent anAgent, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( anAgent, asynchronous, aRobot, aMessage, aContent );
+	public Curve(SPOTAgent aSPOT, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( aSPOT, asynchronous, aRobot, aMessage, aContent );
 		
 		String  direction = content.get( "direction" );
 		boolean toTheLeft = direction != null && direction.equals( "left" );

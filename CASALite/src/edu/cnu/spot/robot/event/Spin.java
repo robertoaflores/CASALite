@@ -2,15 +2,15 @@ package edu.cnu.spot.robot.event;
 
 import org.sunspotworld.create.IRobotCreate;
 
-import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.message.MapMessage;
+import edu.cnu.spot.SPOTAgent;
 import edu.cnu.spot.robot.event.interrupt.AngleInterrupt;
 
 public class Spin extends Drive {
 	private final boolean toTheLeft;
 	
-	public Spin(MessageAgent anAgent, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( anAgent, asynchronous, aRobot, aMessage, aContent );
+	public Spin(SPOTAgent aSPOT, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( aSPOT, asynchronous, aRobot, aMessage, aContent );
 		
 		String direction = content.get( "direction" );
 		toTheLeft = direction != null && direction.equals( "left" );

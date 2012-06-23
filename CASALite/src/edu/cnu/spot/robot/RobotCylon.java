@@ -1,17 +1,15 @@
 package edu.cnu.spot.robot;
 
 import com.sun.spot.resources.transducers.LEDColor;
-import com.sun.spot.sensorboard.EDemoBoard;
 
 import edu.cnu.casaLite.event.Event;
 import edu.cnu.casaLite.io.IMessageStream;
-import edu.cnu.casaLite.message.KQMLMessage;
 import edu.cnu.casaLite.message.MapMessage;
-import edu.cnu.casaLite.message.IMessage;
-import edu.cnu.spot.MIDlet.util.CylonLights;
-import edu.cnu.spot.robot.event.Lights;
+import edu.cnu.spot.event.Lights;
+import edu.cnu.spot.util.CylonLights;
+import edu.cnu.spot.util.ICylon;
 
-public class RobotCylon extends RobotDevice {
+public class RobotCylon extends RobotDevice implements ICylon {
 	private CylonLights lights;
 	private boolean     init;
 	
@@ -21,13 +19,29 @@ public class RobotCylon extends RobotDevice {
 	public RobotCylon(IMessageStream aStream) {
 		super( aStream );
 		init = false;
+
+		addProcessor( new ISPOTProcessor() {
+			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
+				if (performative.equals( "request" )) {
+					Event   event = null;
+
+					if (command.equals( "lights" )) event = new Lights( RobotCylon.this, RobotCylon.this, message, content );
+					
+					if (event != null) {
+						queueEvent( event );
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 	}
 
 	protected boolean isInitialized() {
 		return super.isInitialized() && init;
 	}
 	protected void onInit() {
-		lights = new CylonLights( EDemoBoard.getInstance() );
+		lights = new CylonLights();
 		lights.setColor( LEDColor.GREEN );
 		super.onInit();
 		init = true;
@@ -41,11 +55,11 @@ public class RobotCylon extends RobotDevice {
 		super.onExit();
 	}
 	
-	public void setLights(LEDColor aColor) {
+	public void setColor(LEDColor aColor) {
 		lights.setColor( aColor );
 	}
-	
-	protected void handleMessage(IMessage aMessage) {
+/*	
+	protected boolean handleMessage(IMessage aMessage) {
 //		System.out.println( "[iCylon] received: " + aMessage );
 		MapMessage message      = (MapMessage) aMessage;
 		String     performative = message.get( "performative" );
@@ -53,7 +67,7 @@ public class RobotCylon extends RobotDevice {
 		boolean    handled      = false;
 
 		if (language.equals( "spot" )) {
-			MapMessage content = (MapMessage) KQMLMessage.fromString( message.getQuoted( "content", false ));
+			MapMessage content = KQMLMessage.fromString( message.getQuoted( "content", false ));
 			String     command = content.get( "performative" );
 
 			if (performative.equals( "request" )) {
@@ -70,4 +84,5 @@ public class RobotCylon extends RobotDevice {
 			super.handleMessage( aMessage );
 		}
 	}
+*/
 }

@@ -24,11 +24,7 @@ package edu.cnu.casaLite.io;
  * <b>136.159.2.4/canada/alberta/calgary?lac=9000</b> describes an agent instance ("calgary") of type "canada/alberta" that may or may not be running on an unknown port, but it can be started or its port number obtained from the LAC running on port 9000. 
  * </blockquote> 
  */
-//public class URLDescriptor implements Comparable {
-public class URLDescriptor {
-//	public static final String NO_HOST = "Unknown host: ";
-	public static final String NO_PORT = "Unknown port: ";
-
+public class URLDescriptor implements IURLDescriptor {
 	private String scheme;   // name of the protocol
 	private String user;     // name of the physical user this agent is associated with
 	private String host;     // host machine url

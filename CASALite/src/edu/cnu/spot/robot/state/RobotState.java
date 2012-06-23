@@ -10,6 +10,6 @@ public abstract class RobotState extends State {
 	protected RobotState(boolean asynchronous) {
 		super( asynchronous );
 	}
-	public abstract void   handleRobotMessage(String performative, String command, MapMessage message, MapMessage content);
-	public abstract String getName();
+	public abstract boolean handleMessage(MapMessage message, String performative, MapMessage content, String command);
+	public abstract String  getName();
 }

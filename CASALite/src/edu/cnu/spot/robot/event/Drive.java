@@ -7,8 +7,8 @@ import org.sunspotworld.create.IRobotCreate;
 
 import com.sun.spot.util.Utils;
 
-import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.message.MapMessage;
+import edu.cnu.spot.SPOTAgent;
 import edu.cnu.spot.robot.event.interrupt.BumpInterrupt;
 import edu.cnu.spot.robot.event.interrupt.DistanceInterrupt;
 import edu.cnu.spot.robot.event.interrupt.IRobotInterrupt;
@@ -26,8 +26,8 @@ public class Drive extends RobotEvent {
 	private         boolean obsolete;
 	private         boolean interrupted;
 
-	public Drive(MessageAgent anAgent, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( anAgent, asynchronous, aRobot, aMessage, aContent );
+	public Drive(SPOTAgent aSPOT, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( aSPOT, asynchronous, aRobot, aMessage, aContent );
 
 		beforeMe  = lastDrive;
 		lastDrive = this;
