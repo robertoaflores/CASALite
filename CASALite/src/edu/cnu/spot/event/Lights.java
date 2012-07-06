@@ -6,12 +6,13 @@ import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
 import edu.cnu.spot.util.ICylon;
 
-public class Lights extends SPOTEvent {
+public class Lights extends SPOTReplyEvent {
 	private LEDColor color;
 	private ICylon   cylon;
 	
-	public Lights(SPOTAgent aSPOT, ICylon cylon, MapMessage aMessage, MapMessage aContent) {
-		super( aSPOT, false, aMessage, aContent );
+	public Lights(SPOTAgent aSPOT, ICylon aCylon, MapMessage aMessage, MapMessage aContent) {
+		super( false, aSPOT, aMessage, aContent );
+		cylon = aCylon;
 		
 		String name = content.get( "color" );
 		if      (name.equals( "blue"      )) color = LEDColor.BLUE;

@@ -10,8 +10,8 @@ public class Curve extends Drive {
 	//   | positive |                     | left
 	private final int radius;
 	
-	public Curve(SPOTAgent aSPOT, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( aSPOT, asynchronous, aRobot, aMessage, aContent );
+	public Curve(boolean asynchronous, SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( asynchronous, aSPOT, aRobot, aMessage, aContent );
 		
 		String  direction = content.get( "direction" );
 		boolean toTheLeft = direction != null && direction.equals( "left" );

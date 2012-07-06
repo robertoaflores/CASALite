@@ -9,8 +9,8 @@ import edu.cnu.spot.robot.event.interrupt.AngleInterrupt;
 public class Spin extends Drive {
 	private final boolean toTheLeft;
 	
-	public Spin(SPOTAgent aSPOT, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( aSPOT, asynchronous, aRobot, aMessage, aContent );
+	public Spin(boolean asynchronous, SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( asynchronous, aSPOT, aRobot, aMessage, aContent );
 		
 		String direction = content.get( "direction" );
 		toTheLeft = direction != null && direction.equals( "left" );

@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 public abstract class IntervalEvent extends Event {
 	protected static final Timer TIMER     = new Timer();
-	public    static final int   INFINITE  = Integer.MAX_VALUE;
+	public    static final int   FOREVER  = Integer.MAX_VALUE;
 
 	private int       timesLeft;
 	private long      interval;
@@ -35,7 +35,7 @@ public abstract class IntervalEvent extends Event {
 
 	public void run() {
 		if (isRecurrent()) {
-			if (timesLeft == INFINITE || timesLeft-- > 0) {
+			if (timesLeft == FOREVER || timesLeft-- > 0) {
 				super.run();
 			}
 			if (timesLeft == 0) {

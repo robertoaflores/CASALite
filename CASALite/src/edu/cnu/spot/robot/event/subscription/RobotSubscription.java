@@ -13,7 +13,7 @@ public abstract class RobotSubscription extends IntervalEvent {
 	protected final MapMessage   content;
 
 	public RobotSubscription(MessageAgent anAgent, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( INFINITE );
+		super( FOREVER );
 
 		agent   = anAgent;
 		robot   = aRobot;

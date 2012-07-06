@@ -26,8 +26,8 @@ public class Drive extends RobotEvent {
 	private         boolean obsolete;
 	private         boolean interrupted;
 
-	public Drive(SPOTAgent aSPOT, boolean asynchronous, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( aSPOT, asynchronous, aRobot, aMessage, aContent );
+	public Drive(boolean asynchronous, SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( asynchronous, aSPOT, aRobot, aMessage, aContent );
 
 		beforeMe  = lastDrive;
 		lastDrive = this;

@@ -6,12 +6,13 @@ import edu.cnu.casaLite.message.IMessage;
 import edu.cnu.casaLite.message.KQMLMessage;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.event.Bye;
+import edu.cnu.spot.message.ISPOTMessageProcessor;
 
 public class SPOTAgent extends MessageAgent {
 
-	protected interface ISPOTProcessor extends IMessageProcessor {
-		boolean handleMessage(MapMessage message, String performative, MapMessage content, String command);
-	}
+//	protected interface ISPOTProcessor extends IMessageProcessor {
+//		boolean handleMessage(MapMessage message, String performative, MapMessage content, String command);
+//	}
 	
 	public SPOTAgent() {
 		this( null );
@@ -19,7 +20,7 @@ public class SPOTAgent extends MessageAgent {
 	public SPOTAgent(IMessageStream aStream) {
 		super( aStream );
 
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "request" )) {
 					if (command.equals( "bye" )) {
@@ -30,7 +31,7 @@ public class SPOTAgent extends MessageAgent {
 				return false;
 			}
 		});
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "done" )) {
 					if (command.equals( "bye" )) {
@@ -41,7 +42,7 @@ public class SPOTAgent extends MessageAgent {
 				return false;
 			}
 		});
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "not-understood" )) {
 					System.out.println( "not-understood received: " + message.toString() );
@@ -67,7 +68,7 @@ public class SPOTAgent extends MessageAgent {
 	
 	protected boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 		for (int i = 0; i < processors.size(); i++) {
-			ISPOTProcessor processor = (ISPOTProcessor) processors.elementAt( i );
+			ISPOTMessageProcessor processor = (ISPOTMessageProcessor) processors.elementAt( i );
 			if (processor.handleMessage(message, performative, content, command)) {
 				System.out.println( "[handler] " + processor.toString() );
 				return true;

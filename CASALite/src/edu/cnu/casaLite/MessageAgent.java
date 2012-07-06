@@ -7,16 +7,16 @@ import edu.cnu.casaLite.io.IMessageStream;
 import edu.cnu.casaLite.io.IURLDescriptor;
 import edu.cnu.casaLite.message.IMessage;
 import edu.cnu.casaLite.message.IMessageHandler;
+import edu.cnu.casaLite.message.IMessageProcessor;
 
 public abstract class MessageAgent extends EventAgent implements IMessageHandler {
-	private   IMessageStream stream;
-	private   boolean        init;
-	protected Vector         processors = new Vector();
+	private         IMessageStream stream;
+	private         boolean        init;
 	
-	protected interface IMessageProcessor { }
-
-	public    final void    addProcessor(IMessageProcessor aProcessor) { processors.   addElement( aProcessor ); }
-	protected final void removeProcessor(IMessageProcessor aProcessor) { processors.removeElement( aProcessor ); }
+	protected final Vector         processors = new Vector();
+	
+	public final void    addProcessor(IMessageProcessor aProcessor) { processors.   addElement( aProcessor ); }
+	public final void removeProcessor(IMessageProcessor aProcessor) { processors.removeElement( aProcessor ); }
 	
 	protected MessageAgent(IMessageStream aStream) {
 		init = false;

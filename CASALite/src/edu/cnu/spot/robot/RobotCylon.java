@@ -6,6 +6,7 @@ import edu.cnu.casaLite.event.Event;
 import edu.cnu.casaLite.io.IMessageStream;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.event.Lights;
+import edu.cnu.spot.message.ISPOTMessageProcessor;
 import edu.cnu.spot.util.CylonLights;
 import edu.cnu.spot.util.ICylon;
 
@@ -20,7 +21,7 @@ public class RobotCylon extends RobotDevice implements ICylon {
 		super( aStream );
 		init = false;
 
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "request" )) {
 					Event   event = null;

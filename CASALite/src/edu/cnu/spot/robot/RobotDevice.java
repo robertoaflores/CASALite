@@ -10,6 +10,7 @@ import edu.cnu.casaLite.event.Event;
 import edu.cnu.casaLite.io.IMessageStream;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
+import edu.cnu.spot.message.ISPOTMessageProcessor;
 import edu.cnu.spot.robot.event.Curve;
 import edu.cnu.spot.robot.event.Drive;
 import edu.cnu.spot.robot.event.Sing;
@@ -34,18 +35,18 @@ public class RobotDevice extends SPOTAgent {
 		init          = false;
 		subscriptions = new Vector();
 		
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "request" )) {
 					String  string       = content.get( "asynchronous" );
 					boolean asynchronous = (string != null) && string.equals( "true" );
 					Event   event        = null;
 
-					if      (command.equals( "curve" )) event = new Curve( RobotDevice.this, asynchronous, robot, message, content );
-					else if (command.equals( "drive" )) event = new Drive( RobotDevice.this, asynchronous, robot, message, content );
-					else if (command.equals( "sing"  )) event = new Sing ( RobotDevice.this, asynchronous, robot, message, content );
-					else if (command.equals( "spin"  )) event = new Spin ( RobotDevice.this, asynchronous, robot, message, content );
-					else if (command.equals( "stop"  )) event = new Stop ( RobotDevice.this,               robot, message          );
+					if      (command.equals( "curve" )) event = new Curve( asynchronous, RobotDevice.this, robot, message, content );
+					else if (command.equals( "drive" )) event = new Drive( asynchronous, RobotDevice.this, robot, message, content );
+					else if (command.equals( "sing"  )) event = new Sing ( asynchronous, RobotDevice.this, robot, message, content );
+					else if (command.equals( "spin"  )) event = new Spin ( asynchronous, RobotDevice.this, robot, message, content );
+					else if (command.equals( "stop"  )) event = new Stop (               RobotDevice.this, robot, message          );
 					
 					if (event != null) {
 						queueEvent( event );
@@ -55,7 +56,7 @@ public class RobotDevice extends SPOTAgent {
 				return false;
 			}
 		});
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "subscribe" )) {
 					Event event = null;
@@ -75,7 +76,7 @@ public class RobotDevice extends SPOTAgent {
 				return false;
 			}
 		});
-		addProcessor( new ISPOTProcessor() {
+		addProcessor( new ISPOTMessageProcessor() {
 			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
 				if (performative.equals( "unsubscribe" )) {
 					Enumeration       i     = subscriptions.elements();
