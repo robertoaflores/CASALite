@@ -20,27 +20,66 @@ public abstract class Event extends State implements Runnable {
 	private boolean ready;
 	private boolean recurrent;
 
+	/**
+	 * Constructor that automatically sets the event to synchronous.
+	 */
 	public Event() {
 		this( false );
 	}
+	/**
+	 * Constructor that sets the Event asynchronous. Most events will hold the Event Agents attention
+	 * until the event agent is finished. An asynchronous event will be initialized by the Event agent 
+	 * and then will run while the Event agent gathers the next event. The event will be set to ready to 
+	 * run and not recurrent by default.
+	 * 
+	 * @param asynchronous sets whether it is asynchronous or synchronous.
+	 */
 	public Event(boolean asynchronous) {
 		super( asynchronous );
 		ready     = true;
 		recurrent = false;
 	}
 
+	/**
+	 * Sets the Event ready to run. The Event Agent will not be able to access the 
+	 * event unless this value is true. A true value allows access to the Event while a 
+	 * false value denies access.
+	 * 
+	 * @param value determines whether the event is ready to be accessed by the Event Agent.
+	 */
 	protected void setReadyToRun(boolean value) {
 		ready = value;
 		if (value) System.out.println( "readyToRun  : " + toString() ); 
 	}
+
+	/**
+	 * Checks to see if the Event is ready to Run. This determines if it is passed to the Event Agent
+	 * or not.
+	 * 
+	 * @return <code>True</code> if the Event is ready to Run and <code>False</code> otherwise.
+	 */
 	public boolean isReadyToRun() {
 		return ready;
 	}
 
+	/**
+	 * Sets the event to recurrent. This is used when the event is required more than once. An example is 
+	 * gathering data from an sensor every thirty seconds. A true value will tell the EventQueue that it is
+	 * needed again and a false value remove the event from queue.
+	 * 
+	 * @param value determines whether the event is recurrent
+	 */
 	protected void setRecurrent(boolean value) {
 		recurrent = value;
 		if (value) System.out.println( "setRecurrent: " + toString() ); 
 	}
+
+	/**
+	 * Checks to see if the event is recurrent. This determines if it is removed from the Queue after being 
+	 * ran or placed back into the Queue.
+	 * 
+	 * @return <code>True</code> if the Event is recurrent and <code>False</code> otherwise.
+	 */
 	public boolean isRecurrent() {
 		return recurrent;
 	}
