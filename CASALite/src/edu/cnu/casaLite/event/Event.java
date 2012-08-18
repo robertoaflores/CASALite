@@ -1,3 +1,17 @@
+/**
+ * Event is the abstract class that allows the modification of the state of each event. An event object has  
+ * two main states:
+ * <ul>
+ * <li>Run</li>
+ * <li>Recurrent</li>
+ * </ul>
+ * <p>
+ * These two states determines how the Event Manager handles the event. 
+ * 
+ * @author Dr. Roberto Flores
+ * @author Justin Ruger
+ */
+
 package edu.cnu.casaLite.event;
 
 import edu.cnu.casaLite.state.State;
