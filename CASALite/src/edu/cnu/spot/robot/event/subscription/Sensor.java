@@ -4,9 +4,9 @@ import java.util.Enumeration;
 
 import org.sunspotworld.create.IRobotCreate;
 
-import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.casaLite.message.Message;
+import edu.cnu.spot.SPOTAgent;
 
 public class Sensor extends RobotSubscription {
 	private static final String[] SENSORS  = { "wall", "cliffLeft", "cliffFrontLeft", "cliffFrontRight", "cliffRight" };
@@ -22,8 +22,8 @@ public class Sensor extends RobotSubscription {
 	private final int[]     before;
 	private final int       delta;
 
-	public Sensor(MessageAgent anAgent, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( anAgent, aRobot, aMessage, aContent );
+	public Sensor(SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( aSPOT, aRobot, aMessage, aContent );
 
 		monitoring = new boolean[ SENSORS.length ];
 		reading    = new int    [ SENSORS.length ];
@@ -72,8 +72,9 @@ public class Sensor extends RobotSubscription {
 				}
 			}
 			// sending
-			message.set( "readings", readings.toString() );
-			agent  .queueMessage( message );			
+			message.set( "performative", "inform-ref" );
+			message.set( "readings",     readings.toString() );
+			spot   .queueMessage( message );			
 		}
 	}
 }

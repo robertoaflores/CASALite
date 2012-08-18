@@ -14,7 +14,7 @@ import edu.cnu.spot.robot.event.interrupt.DistanceInterrupt;
 import edu.cnu.spot.robot.event.interrupt.IRobotInterrupt;
 import edu.cnu.spot.robot.event.interrupt.TimeInterrupt;
 
-public class Drive extends RobotEvent {
+public class Drive extends RobotReply {
 	// "lastDrive" points to the last created Drive instance. Since a Drive command 
 	// cancels the previous Drive command then we can safely terminate the previous one 
 	// (if still active) by marking it "obsolete" before executing the newer Drive.

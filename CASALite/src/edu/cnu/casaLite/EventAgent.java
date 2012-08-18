@@ -50,6 +50,7 @@ public abstract class EventAgent {
 			onIdle();
 		}
 		else {
+			System.out.println( "onLoop: " + event.toString() ); 
 			event.run();
 			if (event.isRecurrent()) {
 				eventQueue.queue( event );
@@ -80,7 +81,7 @@ public abstract class EventAgent {
 		queueEvent( stopEvent );
 	}
 	public void queueEvent(Event event) {
-//		System.out.println( "queueing event: " + !stopped );
+		System.out.println( "queueing event: " + !stopped );
 		if (!stopped) {
 			eventQueue.queue( event );
 		}

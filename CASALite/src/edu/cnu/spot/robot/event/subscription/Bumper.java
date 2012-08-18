@@ -4,9 +4,9 @@ import java.util.Enumeration;
 
 import org.sunspotworld.create.IRobotCreate;
 
-import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.casaLite.message.Message;
+import edu.cnu.spot.SPOTAgent;
 
 public class Bumper extends RobotSubscription {
 	private static final String[] BUMPERS  = { "frontLeft", "frontRight" };
@@ -18,8 +18,8 @@ public class Bumper extends RobotSubscription {
 	private final boolean[] reading;
 	private final boolean[] before;
 
-	public Bumper(MessageAgent anAgent, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( anAgent, aRobot, aMessage, aContent );
+	public Bumper(SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( aSPOT, aRobot, aMessage, aContent );
 
 		monitoring = new boolean[ BUMPERS.length ];
 		reading    = new boolean[ BUMPERS.length ];
@@ -58,8 +58,9 @@ public class Bumper extends RobotSubscription {
 				}
 			}
 			// sending
-			message.set( "readings", readings.toString() );
-			agent  .queueMessage( message );			
+			message.set( "performative", "inform-ref" );
+			message.set( "readings",     readings.toString() );
+			spot   .queueMessage( message );			
 		}
 	}
 }

@@ -45,6 +45,8 @@ public abstract class IntervalEvent extends Event {
 	}
 
 	protected void setRecurrent(boolean recurrent) {
+		if (recurrent) System.out.println( "setRecurrent: " + toString() );
+		
 		if (task != null) {
 			task.cancel();
 			task  = null;

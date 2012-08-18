@@ -2,15 +2,15 @@ package edu.cnu.spot.robot.event.subscription;
 
 import org.sunspotworld.create.IRobotCreate;
 
-import edu.cnu.casaLite.MessageAgent;
 import edu.cnu.casaLite.message.MapMessage;
+import edu.cnu.spot.SPOTAgent;
 
 public class Odometer extends RobotSubscription {
 	private int accumulated;
 	private int before;
 
-	public Odometer(MessageAgent anAgent, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
-		super( anAgent, aRobot, aMessage, aContent );
+	public Odometer(SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {
+		super( aSPOT, aRobot, aMessage, aContent );
 		before = robot.getAccumulatedDistance();
 	}
 
@@ -20,7 +20,8 @@ public class Odometer extends RobotSubscription {
 		before       = now;
 		accumulated += diff;
 
-		message.set( "readings", "( :accumulated " + accumulated + " :difference " + diff + " )" );
-		agent  .queueMessage( message );			
+		message.set( "performative", "inform-ref" );
+		message.set( "readings",     "( :accumulated " + accumulated + " :difference " + diff + " )" );
+		spot   .queueMessage( message );			
 	}
 }

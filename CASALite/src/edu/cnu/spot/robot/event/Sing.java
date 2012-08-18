@@ -8,7 +8,7 @@ import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.casaLite.message.Message;
 import edu.cnu.spot.SPOTAgent;
 
-public class Sing extends RobotEvent {
+public class Sing extends RobotReply {
 	private int[] song;
 
 	public Sing(boolean asynchronous, SPOTAgent aSPOT, IRobotCreate aRobot, MapMessage aMessage, MapMessage aContent) {

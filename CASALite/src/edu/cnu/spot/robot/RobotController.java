@@ -15,29 +15,13 @@ public abstract class RobotController extends SPOTAgent {
 		super( aStream );
 	}
 
-	protected boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
+	// must be extended (overridden & called) by all subclass agents that process messages
+	protected boolean interpretMessage(MapMessage message, String performative, MapMessage content, String command) {
 			RobotState state = getState();
-			return state.handleMessage( message, performative, content, command ) || 
-				   super.handleMessage( message, performative, content, command );
+			return state.interpretMessage( message, performative, content, command ) || 
+				   super.interpretMessage( message, performative, content, command );
 	}
-	
-//	protected void handleMessage(IMessage aMessage) {
-//		MapMessage message  = (MapMessage) aMessage;
-//		String     language = message.get( "language" );
-//
-//		if (language.equals( "spot" )) {
-//			String     performative = message.get( "performative" );
-//			MapMessage content      = KQMLMessage.fromString( message.getQuoted( "content", false ));
-//			String     command      = content.get( "performative" );
-//
-//			RobotState state        = getState();
-//			state.handleRobotMessage( performative, command, message, content );
-//		}
-//		else {
-//			super.handleMessage( message );
-//		}
-//	}
-	
+
 	public abstract void setInitialState();
 	
 	protected void setState(RobotState aState) {

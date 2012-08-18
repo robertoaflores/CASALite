@@ -6,7 +6,6 @@ import edu.cnu.casaLite.event.Event;
 import edu.cnu.casaLite.io.IMessageStream;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.event.Lights;
-import edu.cnu.spot.message.ISPOTMessageProcessor;
 import edu.cnu.spot.util.CylonLights;
 import edu.cnu.spot.util.ICylon;
 
@@ -20,22 +19,6 @@ public class RobotCylon extends RobotDevice implements ICylon {
 	public RobotCylon(IMessageStream aStream) {
 		super( aStream );
 		init = false;
-
-		addProcessor( new ISPOTMessageProcessor() {
-			public boolean handleMessage(MapMessage message, String performative, MapMessage content, String command) {
-				if (performative.equals( "request" )) {
-					Event   event = null;
-
-					if (command.equals( "lights" )) event = new Lights( RobotCylon.this, RobotCylon.this, message, content );
-					
-					if (event != null) {
-						queueEvent( event );
-						return true;
-					}
-				}
-				return false;
-			}
-		});
 	}
 
 	protected boolean isInitialized() {
@@ -59,31 +42,16 @@ public class RobotCylon extends RobotDevice implements ICylon {
 	public void setColor(LEDColor aColor) {
 		lights.setColor( aColor );
 	}
-/*	
-	protected boolean handleMessage(IMessage aMessage) {
-//		System.out.println( "[iCylon] received: " + aMessage );
-		MapMessage message      = (MapMessage) aMessage;
-		String     performative = message.get( "performative" );
-		String     language     = message.get( "language" );
-		boolean    handled      = false;
 
-		if (language.equals( "spot" )) {
-			MapMessage content = KQMLMessage.fromString( message.getQuoted( "content", false ));
-			String     command = content.get( "performative" );
-
-			if (performative.equals( "request" )) {
-				Event event;
-				if      (command.equals( "lights" )) event = new Lights( this, message, content );
-				else                                 event = null;
-				if (event != null) {
-					queueEvent( event );
-					handled = true;
-				}
+	// must be overridden by all agents that process messages
+	protected boolean interpretMessage(MapMessage message, String performative, MapMessage content, String command) {
+		if (performative.equals( "request" )) {
+			if (command.equals( "lights" )) {
+				Event event = new Lights( RobotCylon.this, RobotCylon.this, message, content );
+				queueEvent( event );
+				return true;
 			}
 		}
-		if (!handled) {
-			super.handleMessage( aMessage );
-		}
+		return super.interpretMessage(message, performative, content, command);
 	}
-*/
 }

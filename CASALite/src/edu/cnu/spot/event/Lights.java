@@ -6,7 +6,7 @@ import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
 import edu.cnu.spot.util.ICylon;
 
-public class Lights extends SPOTReplyEvent {
+public class Lights extends SPOTReply {
 	private LEDColor color;
 	private ICylon   cylon;
 	
