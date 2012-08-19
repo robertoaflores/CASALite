@@ -1,7 +1,7 @@
 package edu.cnu.spot.MIDlet;
 
+import edu.cnu.spot.create.RobotController;
 import edu.cnu.spot.io.KQMLBridge;
-import edu.cnu.spot.robot.RobotController;
 
 public abstract class AutonomousRobotMIDlet extends RobotDeviceMIDlet {
 	private   final KQMLBridge      bridge;

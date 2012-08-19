@@ -11,7 +11,7 @@ public abstract class SPOTSubscription extends IntervalEvent {
 
 	public SPOTSubscription(SPOTAgent aSPOT, MapMessage aMessage, MapMessage aContent) {
 		super( FOREVER );
-
+		
 		spot    = aSPOT;
 		message = aMessage;
 		content = aContent;

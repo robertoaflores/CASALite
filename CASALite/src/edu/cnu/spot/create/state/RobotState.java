@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot.state;
+package edu.cnu.spot.create.state;
 
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.casaLite.state.State;

@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot;
+package edu.cnu.spot.create;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -6,20 +6,21 @@ import java.util.Vector;
 import org.sunspotworld.create.Create;
 import org.sunspotworld.create.IRobotCreate;
 
+import edu.cnu.Debug;
 import edu.cnu.casaLite.event.Event;
 import edu.cnu.casaLite.io.IMessageStream;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
-import edu.cnu.spot.robot.event.Curve;
-import edu.cnu.spot.robot.event.Drive;
-import edu.cnu.spot.robot.event.Sing;
-import edu.cnu.spot.robot.event.Spin;
-import edu.cnu.spot.robot.event.Stop;
-import edu.cnu.spot.robot.event.subscription.Bumper;
-import edu.cnu.spot.robot.event.subscription.Infrared;
-import edu.cnu.spot.robot.event.subscription.Odometer;
-import edu.cnu.spot.robot.event.subscription.RobotSubscription;
-import edu.cnu.spot.robot.event.subscription.Sensor;
+import edu.cnu.spot.create.event.Curve;
+import edu.cnu.spot.create.event.Drive;
+import edu.cnu.spot.create.event.Sing;
+import edu.cnu.spot.create.event.Spin;
+import edu.cnu.spot.create.event.Stop;
+import edu.cnu.spot.create.event.subscription.Bumper;
+import edu.cnu.spot.create.event.subscription.Infrared;
+import edu.cnu.spot.create.event.subscription.Odometer;
+import edu.cnu.spot.create.event.subscription.RobotSubscription;
+import edu.cnu.spot.create.event.subscription.Sensor;
 
 public class RobotDevice extends SPOTAgent {
 	private   final Vector       subscriptions; 
@@ -60,7 +61,7 @@ public class RobotDevice extends SPOTAgent {
 			if (event != null) {
 				queueEvent( event );
 				
-				System.out.println( " [RobotDevice] <"+ performative +">:<" + command + "> REQUEST" );
+				Debug.println( " [RobotDevice] <"+ performative +">:<" + command + "> REQUEST" );
 				return true;
 			}
 		}
@@ -73,11 +74,10 @@ public class RobotDevice extends SPOTAgent {
 			else if (command.equals( "bumper"   )) event = new Bumper  ( RobotDevice.this, robot, message, content );
 
 			if (event != null) {
-//				Debug.println( " [iRobot] +subscribe: " + content.toString() );
 				subscriptions.addElement( event );
 				queueEvent              ( event );
 				
-				System.out.println( " [RobotDevice] <"+ performative +">:<" + command + "> SUBSCRIBE" );
+				Debug.println( "[RobotDevice] <"+ performative +">:<" + command + "> SUBSCRIBE" );
 				return true;
 			}
 		}
@@ -98,11 +98,11 @@ public class RobotDevice extends SPOTAgent {
 				message.set( "performative", "done" );
 				queueMessage( message );
 
-				System.out.println( " [RobotDevice] <"+ performative +">:<" + command + "> UNSUBSCRIBE" );
+				Debug.println( "[RobotDevice] <"+ performative +">:<" + command + "> UNSUBSCRIBE" );
 				return true;
 			}
 		}
-		System.out.println( " [RobotDevice] <"+ performative +">:<" + command + "> SUPER" );
+		Debug.println( "[RobotDevice] <"+ performative +">:<" + command + "> SUPER" );
 		return super.interpretMessage(message, performative, content, command);
 	}
 }

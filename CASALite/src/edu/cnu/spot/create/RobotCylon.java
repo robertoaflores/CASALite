@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot;
+package edu.cnu.spot.create;
 
 import com.sun.spot.resources.transducers.LEDColor;
 

@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot.event;
+package edu.cnu.spot.create.event;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -9,10 +9,10 @@ import com.sun.spot.util.Utils;
 
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
-import edu.cnu.spot.robot.event.interrupt.BumpInterrupt;
-import edu.cnu.spot.robot.event.interrupt.DistanceInterrupt;
-import edu.cnu.spot.robot.event.interrupt.IRobotInterrupt;
-import edu.cnu.spot.robot.event.interrupt.TimeInterrupt;
+import edu.cnu.spot.create.event.interrupt.BumpInterrupt;
+import edu.cnu.spot.create.event.interrupt.DistanceInterrupt;
+import edu.cnu.spot.create.event.interrupt.IRobotInterrupt;
+import edu.cnu.spot.create.event.interrupt.TimeInterrupt;
 
 public class Drive extends RobotReply {
 	// "lastDrive" points to the last created Drive instance. Since a Drive command 

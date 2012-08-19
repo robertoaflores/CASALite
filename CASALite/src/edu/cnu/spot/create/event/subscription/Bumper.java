@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot.event.subscription;
+package edu.cnu.spot.create.event.subscription;
 
 import java.util.Enumeration;
 

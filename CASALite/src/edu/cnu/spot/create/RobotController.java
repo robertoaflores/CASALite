@@ -1,9 +1,9 @@
-package edu.cnu.spot.robot;
+package edu.cnu.spot.create;
 
 import edu.cnu.casaLite.io.IMessageStream;
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
-import edu.cnu.spot.robot.state.RobotState;
+import edu.cnu.spot.create.state.RobotState;
 
 public abstract class RobotController extends SPOTAgent {
 	private RobotState state;

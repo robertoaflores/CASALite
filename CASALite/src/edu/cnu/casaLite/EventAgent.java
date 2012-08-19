@@ -45,15 +45,14 @@ public abstract class EventAgent {
 	}
 	protected void onLoop() {
 		Event event = eventQueue.dequeue();
-//		System.out.println( "onLoop: " + (event == null ? "no event" : event.toString() )); 
 		if (event == null) {
 			onIdle();
 		}
 		else {
-			System.out.println( "onLoop: " + event.toString() ); 
+//			System.out.println( "onLoop: " + event.toString() ); 
 			event.run();
 			if (event.isRecurrent()) {
-				eventQueue.queue( event );
+				queueEvent( event );
 			}
 		}
 	}
@@ -81,7 +80,7 @@ public abstract class EventAgent {
 		queueEvent( stopEvent );
 	}
 	public void queueEvent(Event event) {
-		System.out.println( "queueing event: " + !stopped );
+//		System.out.println( "queueing [" + !stopped + "]: " + event );
 		if (!stopped) {
 			eventQueue.queue( event );
 		}

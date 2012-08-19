@@ -1,10 +1,10 @@
-package edu.cnu.spot.robot.event;
+package edu.cnu.spot.create.event;
 
 import org.sunspotworld.create.IRobotCreate;
 
 import edu.cnu.casaLite.message.MapMessage;
 import edu.cnu.spot.SPOTAgent;
-import edu.cnu.spot.robot.event.interrupt.AngleInterrupt;
+import edu.cnu.spot.create.event.interrupt.AngleInterrupt;
 
 public class Spin extends Drive {
 	private final boolean toTheLeft;

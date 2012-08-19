@@ -1,7 +1,7 @@
 package edu.cnu.spot.MIDlet;
 
-import edu.cnu.spot.robot.RobotCylon;
-import edu.cnu.spot.robot.RobotDevice;
+import edu.cnu.spot.create.RobotCylon;
+import edu.cnu.spot.create.RobotDevice;
 
 public abstract class RobotDeviceMIDlet extends StateMIDlet {
 	protected RobotDevice robot; 

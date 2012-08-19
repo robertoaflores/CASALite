@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot.event;
+package edu.cnu.spot.create.event;
 
 import java.util.Enumeration;
 

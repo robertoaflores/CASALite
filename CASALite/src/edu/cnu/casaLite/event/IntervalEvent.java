@@ -4,36 +4,54 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class IntervalEvent extends Event {
-	protected static final Timer TIMER     = new Timer();
-	public    static final int   FOREVER  = Integer.MAX_VALUE;
+	private static final Timer TIMER   = new Timer();
+	public  static final int   FOREVER = Integer.MAX_VALUE;
 
 	private int       timesLeft;
 	private long      interval;
 	private TimerTask task;
 
-	public IntervalEvent(long timeBetweenRuns) {
-		this( timeBetweenRuns, 1 );
+	public IntervalEvent(int timesToRun) {
+		this( 500, timesToRun );
 	}
 	public IntervalEvent(long timeBetweenRuns, int timesToRun) {
 //		assert( timesToRun > 0 );
 //		assert( timeBetweenRuns > -1 );
-		timesLeft = timesToRun > 0 ? timesToRun : 1;
-		interval  = timeBetweenRuns > 0 ? timeBetweenRuns : 0;
 		task      = null;
-		setRecurrent( timesLeft > 0 );
+		timesLeft = timesToRun > 0 ? timesToRun : 1;
+		setInterval( timeBetweenRuns );
 	}
 
-	public int getTimesLeft() {
+	public final int getTimesLeft() {
 		return timesLeft;
 	}
 	
-	public void setInterval(long timeBetweenRuns) {
+	public final void setInterval(long timeBetweenRuns) {
 //		assert( timeBetweenRuns > -1 );
-		interval = timeBetweenRuns > 0 ? timeBetweenRuns : 0;
-		setRecurrent ( true );
+		interval =     timeBetweenRuns > 0 ? timeBetweenRuns : 0;
+		setRecurrent ( timesLeft       > 0 );
 	}
 
-	public void run() {
+	protected final void setRecurrent(boolean value) {
+		super.setRecurrent( value );
+
+		if (task != null) {
+			task.cancel();
+			task  = null;
+		}
+		if (value) {
+			setReadyToRun( false );
+			task = new TimerTask() {
+				public void run() {
+//					System.out.println( "Timer : " + toString() ); 
+					setReadyToRun( true );
+				}
+			};
+			TIMER.schedule( task, 0, interval );
+		}
+	}
+
+	public final void run() {
 		if (isRecurrent()) {
 			if (timesLeft == FOREVER || timesLeft-- > 0) {
 				super.run();
@@ -43,34 +61,13 @@ public abstract class IntervalEvent extends Event {
 			}
 		}
 	}
-
-	protected void setRecurrent(boolean recurrent) {
-		if (recurrent) System.out.println( "setRecurrent: " + toString() );
-		
-		if (task != null) {
-			task.cancel();
-			task  = null;
-		}
-		if (recurrent) {
-			setReadyToRun( false );
-			task = new TimerTask() {
-				public void run() {
-					setReadyToRun( true );
-				}
-			};
-			TIMER.schedule( task, interval, interval );
-		}
-	}
-	public boolean isRecurrent() {
-		return task != null;
-	}
 	
-	protected void onExit() {
+	protected final void onExit() {
 		super.onExit();
 		setReadyToRun( false );
 	}
 	
-	public void stop() {
+	public final void stop() {
 		setRecurrent ( false );
 		setReadyToRun( true );
 	}

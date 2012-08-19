@@ -16,7 +16,7 @@ package edu.cnu.casaLite.event;
 
 import edu.cnu.casaLite.state.State;
 
-public abstract class Event extends State implements Runnable {
+public abstract class Event extends State {
 	private boolean ready;
 	private boolean recurrent;
 
@@ -47,9 +47,8 @@ public abstract class Event extends State implements Runnable {
 	 * 
 	 * @param value determines whether the event is ready to be accessed by the Event Agent.
 	 */
-	protected void setReadyToRun(boolean value) {
+	protected final void setReadyToRun(boolean value) {
 		ready = value;
-		if (value) System.out.println( "readyToRun  : " + toString() ); 
 	}
 
 	/**
@@ -58,7 +57,7 @@ public abstract class Event extends State implements Runnable {
 	 * 
 	 * @return <code>True</code> if the Event is ready to Run and <code>False</code> otherwise.
 	 */
-	public boolean isReadyToRun() {
+	public final boolean isReadyToRun() {
 		return ready;
 	}
 
@@ -71,7 +70,6 @@ public abstract class Event extends State implements Runnable {
 	 */
 	protected void setRecurrent(boolean value) {
 		recurrent = value;
-		if (value) System.out.println( "setRecurrent: " + toString() ); 
 	}
 
 	/**
@@ -80,7 +78,7 @@ public abstract class Event extends State implements Runnable {
 	 * 
 	 * @return <code>True</code> if the Event is recurrent and <code>False</code> otherwise.
 	 */
-	public boolean isRecurrent() {
+	public final boolean isRecurrent() {
 		return recurrent;
 	}
 }

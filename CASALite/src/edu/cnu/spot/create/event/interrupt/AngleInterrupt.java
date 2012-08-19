@@ -1,4 +1,4 @@
-package edu.cnu.spot.robot.event.interrupt;
+package edu.cnu.spot.create.event.interrupt;
 
 import org.sunspotworld.create.IRobotCreate;
 
