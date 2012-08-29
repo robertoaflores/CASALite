@@ -16,4 +16,10 @@ public abstract class SPOTReply extends Event {
 		message = aMessage;
 		content = aContent;
 	}
+
+	protected void onExit() {
+		super.onExit();
+		message.set( "performative", "done" );
+		spot.queueMessage( message );
+	}
 }

@@ -57,8 +57,8 @@ public class Sensor extends RobotSubscription {
 				case CLIFF_RIGHT       : reading[ i ] = robot.getCliffRightSignal();      break;
 				}
 				int difference = Math.abs( reading[ i ] - before[ i ] );
-				if (difference > delta || (reading[ i ] == 0 && before[ i ] != 0)) {
-//				if (difference > delta) {
+//				if (difference > delta || (reading[ i ] == 0 && before[ i ] != 0)) {
+				if (difference > delta) {
 					sendMessage = true;
 				}
 			}

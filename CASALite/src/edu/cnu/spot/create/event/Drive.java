@@ -54,7 +54,9 @@ public class Drive extends RobotReply {
 		}
 	}
 	protected void onState() {
+		System.out.println( "Drive [1.enter] " + content );
 		onDrive();
+		System.out.println( "Drive [2.exit ] " + content );
 		
 		interrupted = interrupts.size() == 0;
 		while (!interrupted && !obsolete) {
@@ -66,6 +68,7 @@ public class Drive extends RobotReply {
 			if (interrupted) robot.stop();
 			else             Utils.sleep( 50 );
 		}
+		System.out.println( "Drive [3.done ] " + content );
 	}
 	protected void onExit() {
 		if (interrupted) {
