@@ -1,4 +1,4 @@
-package edu.cnu.spot.io.sonar;
+package edu.cnu.spot.create.io.sonar;
 
 import com.sun.spot.resources.transducers.IIOPin;
 import com.sun.spot.sensorboard.EDemoBoard;

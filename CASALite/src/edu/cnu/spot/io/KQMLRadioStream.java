@@ -87,7 +87,7 @@ public class KQMLRadioStream extends AbstractMessageStream {
 								while (true) {
 //									System.out.println("[stream] listening..." );
 									String string = input.readUTF();
-									System.out.println("[stream] >>> " + string );
+//									System.out.println("[stream] >>> " + string );
 									queueMessage( string );
 								}
 							}
@@ -153,7 +153,7 @@ public class KQMLRadioStream extends AbstractMessageStream {
 		try {
 			String message = aMessage.toString();
 			
-			System.out.println( "[stream] <<< "+ message );
+//			System.out.println( "[stream] <<< "+ message );
 			
 			output.writeUTF( message );
 			output.flush();

@@ -21,15 +21,13 @@ import edu.cnu.spot.create.event.subscription.Infrared;
 import edu.cnu.spot.create.event.subscription.Odometer;
 import edu.cnu.spot.create.event.subscription.RobotSubscription;
 import edu.cnu.spot.create.event.subscription.Sensor;
+import edu.cnu.spot.create.event.subscription.Ultrasound;
 
 public class RobotDevice extends SPOTAgent {
 	private   final Vector       subscriptions; 
 	protected       IRobotCreate robot;
 	private         boolean      init;
 
-//	public RobotDevice() {
-//		this( null );
-//	}
 	public RobotDevice(IMessageStream aStream) {
 		super( aStream );
 		init          = false;
@@ -68,10 +66,11 @@ public class RobotDevice extends SPOTAgent {
 		if (performative.equals( "subscribe" )) {
 			Event event = null;
 
-			if      (command.equals( "sensor"   )) event = new Sensor  ( RobotDevice.this, robot, message, content );
-			else if (command.equals( "odometer" )) event = new Odometer( RobotDevice.this, robot, message, content );
-			else if (command.equals( "infrared" )) event = new Infrared( RobotDevice.this, robot, message, content );
-			else if (command.equals( "bumper"   )) event = new Bumper  ( RobotDevice.this, robot, message, content );
+			if      (command.equals( "sensor"     )) event = new Sensor    ( RobotDevice.this, robot, message, content );
+			else if (command.equals( "odometer"   )) event = new Odometer  ( RobotDevice.this, robot, message, content );
+			else if (command.equals( "infrared"   )) event = new Infrared  ( RobotDevice.this, robot, message, content );
+			else if (command.equals( "bumper"     )) event = new Bumper    ( RobotDevice.this, robot, message, content );
+			else if (command.equals( "ultrasound" )) event = new Ultrasound( RobotDevice.this, robot, message, content );
 
 			if (event != null) {
 				subscriptions.addElement( event );
